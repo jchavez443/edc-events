@@ -46,9 +46,22 @@ export default class EdcValidator {
         const valid = tempValidator(jsObj)
         const { errors } = tempValidator
 
+        const retErrors = []
+
+        if (errors) {
+            // eslint-disable-next-line no-restricted-syntax
+            for (const err of errors) {
+                retErrors.push({
+                    message: err.message,
+                    key: err.keyword,
+                    jsonPath: err.dataPath
+                })
+            }
+        }
+
         const details = {
             valid,
-            errors
+            errors: retErrors
         }
 
         return details
