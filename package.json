@@ -7,7 +7,8 @@
   "scripts": {
     "test": "mocha out/test/*.js",
     "lint": "eslint \"./src/**/*.ts\" --fix",
-    "build": " npm run lint && tsc --sourcemap"
+    "build": " npm run lint && tsc --sourcemap",
+    "publish": "npm install && npm run build && npm publish"
   },
   "author": "jchavez443 (https://github.com/jchavez443)",
   "homepage": "https://github.com/jchavez443/edc-events",
