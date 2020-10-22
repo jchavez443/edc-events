@@ -10,7 +10,7 @@
     "build": " npm run lint && tsc --sourcemap"
   },
   "author": "jchavez443 (https://github.com/jchavez443)",
-  "homepage": "https://github.com/jchavez443/edc-ws",
+  "homepage": "https://github.com/jchavez443/edc-events",
   "license": "ISC",
   "dependencies": {
     "@types/uuid": "^8.3.0",
@@ -47,6 +47,9 @@
     "events",
     "async",
     "communication",
-    "chain"
+    "chain",
+    "protocol",
+    "edc-protocol",
+    "shared"
   ]
 }
