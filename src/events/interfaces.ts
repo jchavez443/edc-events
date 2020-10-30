@@ -7,8 +7,8 @@ interface IEventRoot {
 export interface IEvent<T, K> extends IEventRoot {
     trigger?: string
     acknowledge?: boolean
-    details?: T
-    shared?: K
+    details: T
+    shared: K
 }
 
 export interface IAckEvent extends IEventRoot {

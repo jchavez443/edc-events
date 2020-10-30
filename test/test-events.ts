@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import { AckEvent, Event, ErrorEvent, EdcValidator } from '../src'
 
 type Details = { foo: string; bar: number }
-type Shared = { who: string; where: string }
+type Shared = { who?: string; where: string }
 
 const commonEvent = new Event<Details, Shared>('test-event', {
     acknowledge: true,
@@ -87,20 +87,57 @@ describe('Test Event Objects', () => {
         assert(ack.type === AckEvent.type, 'Type must be set during construction')
     })
 
-    it('Event caused()', async () => {
-        const event = commonEvent.caused('new-event', {
-            details: {
-                test: 'this',
-                list: 'of details from generic'
+    it('Event inherit()', async () => {
+        const event1 = new Event('test-1', {
+            shared: {
+                foo: 'baz',
+                x: 1
             }
         })
+
+        const event2 = new Event('test-2', {
+            shared: {
+                foo: 'bar',
+                y: 2
+            }
+        })
+
+        event2.inherit(event1)
+
+        assert(
+            event2.shared?.foo === event1.shared?.foo,
+            `Event2's foo should have been overwritten by inherit, ${event2.shared?.foo}`
+        )
+        assert(event2.shared?.y === 2, `Event2's y should not have been touched`)
+        // @ts-ignore
+        assert(event2.shared?.x === 1, `Event2' should have inherited x from Event1:  ${event2.shared?.x}`)
+    })
+    it('Event caused()', async () => {
+        const event = commonEvent.caused(
+            new Event('new-event', {
+                shared: {
+                    tet: '',
+                    where: '',
+                    who: ''
+                },
+                details: {
+                    test: 'this'
+                }
+            })
+        )
 
         assert(event.details?.test === 'this', 'created event has the correct details')
 
         assert(event.trigger === commonEvent.id, 'new event.trigger must == cause.id')
         assert(event.shared?.where === commonEvent.shared?.where, 'The new event must copy the shared data')
 
-        const anotherEvent = commonEvent.caused('second-event')
+        const anotherEvent = commonEvent.caused(
+            new Event('second-event', {
+                shared: {
+                    where: ''
+                }
+            })
+        )
 
         assert(anotherEvent.trigger === commonEvent.id, 'new event.trigger must == cause.id')
         assert(event.shared?.where === commonEvent.shared?.where, 'The new event must copy the shared data')
