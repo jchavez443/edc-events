@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { AckEvent, ErrorEvent } from '.'
-import { EventProps, IErrorDetails, IEvent } from './interfaces'
+import { EventProps, IEvent } from './interfaces'
 
 export default class Event<T, K> implements IEvent<T, K> {
     type: string
