@@ -64,7 +64,7 @@ describe('Test Event Objects', () => {
         assert(error.details.failed, 'failed event must be included in error')
         assert(error.details.failed === JSON.stringify(commonEvent), 'failed must be the string version of the cause')
 
-        const failedEvent = JSON.parse(error.details.failed)
+        const failedEvent = JSON.parse(error.details.failed || '{}')
 
         assert(failedEvent.id === commonEvent.id, 'Failed event id must match cause')
     })

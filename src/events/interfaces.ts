@@ -20,7 +20,7 @@ export interface IErrorDetails<T> {
     code: number
     cn: string
     message: string
-    failed: string
+    failed?: string
     data?: T
 }
 
